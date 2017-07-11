@@ -1,0 +1,340 @@
+<html><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="/static/addpermission.css" rel="stylesheet" type="text/css">
+		
+    
+		<style>
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 20;
+    left: 100%;
+    margin-top: 30px;
+}
+</style>
+    </head><body>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>DASHBOARD</span></a>
+                </div>
+                <div class="collapse navbar-collapse dropdown" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="addhost.html">HOST</a>
+                        </li>
+                        <li>
+                            <a href="addgroup.html">GROUP</a>
+                        </li>
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD</a></li>
+                            <li><a tabindex="-1" href="addpermission.html">UNCOMMENT</a></li>
+							</ul>
+                       </li>
+					
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
+                            <li><a tabindex="-1" href="#">UPLOAD PLAYBOOK</a></li>
+							<li><a tabindex="-1" href="#">RUN SINGLE YML</a></li>
+                          </ul>
+                       </li>
+                        
+                        <li>
+                            <a href="/index.html">Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Special permission</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">[defaults]</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#inventory"> #inventory = /etc/ansible/hosts</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#library"> #library = /usr/share/my_modules/</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#module_utils"> #module_utils = /usr/share/my_module_utils/</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#remote_tmp"> #remote_tmp = ~/.ansible/tmp</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#local_tmp"> #local_tmp = ~/.ansible/tmp</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#forks"> #forks = 5</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#poll_interval"> #poll_interval = 15</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#sudo_user"> #sudo_user = root</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#ask_sudo_pass"> #ask_sudo_pass = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#ask_pass"> #ask_pass = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#transport"> #transport = smart</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#remote_port"> #remote_port = 22</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#module_lang"> #module_lang = C</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#module_set_locale"> #module_set_locale = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#gathering"> #gathering = implicit</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#gather_subset"> #gather_subset = all</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#gather_timeout"> #gather_timeout = 10</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#roles_path"> #roles_path = /etc/ansible/roles</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#host_key_checking"> #host_key_checking = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#stdout_callback"> #stdout_callback = skippy</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#callback_whitelist"> #callback_whitelist = timer, mail</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#task_includes_static"> #task_includes_static = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#handler_includes_static"> #handler_includes_static = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#error_on_missing_handler"> #error_on_missing_handler = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#sudo_exe"> #sudo_exe = sudo</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#sudo_flags"> #sudo_flags = -H -S -n</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#timeout"> #timeout = 10</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#remote_user"> #remote_user = root</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#log_path"> #log_path = /var/log/ansible.log</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#module_name"> #module_name = command</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#executable"> #executable = /bin/sh</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#hash_behaviour"> #hash_behaviour = replace</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#private_role_vars"> #private_role_vars = yes</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#jinja2_extensions"> #jinja2_extensions = jinja2.ext.do,jinja2.ext.i18n</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#private_key_file"> #private_key_file = /path/to/file</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#vault_password_file"> #vault_password_file = /path/to/vault_password_file</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#ansible_managed"> #ansible_managed = Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S
+                                        by {uid} on {host}</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#ansible_managed"> #ansible_managed = Ansible managed</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#display_skipped_hosts"> #display_skipped_hosts = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#display_args_to_stdout"> #display_args_to_stdout = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#error_on_undefined_vars"> #error_on_undefined_vars = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#system_warnings"> #system_warnings = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#deprecation_warnings"> #deprecation_warnings = True</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#command_warnings"> #command_warnings = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#action_plugins"> #action_plugins = /usr/share/ansible/plugins/action</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#cache_plugins"> #cache_plugins = /usr/share/ansible/plugins/cache</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#callback_plugins"> #callback_plugins = /usr/share/ansible/plugins/callback</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#connection_plugins"> #connection_plugins = /usr/share/ansible/plugins/connection</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#lookup_plugins"> #lookup_plugins = /usr/share/ansible/plugins/lookup</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#inventory_plugins"> #inventory_plugins = /usr/share/ansible/plugins/inventory</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#vars_plugins"> #vars_plugins = /usr/share/ansible/plugins/vars</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#filter_plugins"> #filter_plugins = /usr/share/ansible/plugins/filter</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#test_plugins"> #test_plugins = /usr/share/ansible/plugins/test</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#terminal_plugins"> #terminal_plugins = /usr/share/ansible/plugins/terminal</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#strategy_plugins"> #strategy_plugins = /usr/share/ansible/plugins/strategy</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#strategy"> #strategy = free</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#bin_ansible_callbacks"> #bin_ansible_callbacks = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#nocows"> #nocows = 1</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#cow_selection"> #cow_selection = default</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#cow_selection"> #cow_selection = random</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#nocolor"> #nocolor = 1</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#fact_caching"> #fact_caching = memory</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#retry_files_enabled"> #retry_files_enabled = False</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#retry_files_save_path"> #retry_files_save_path = ~/.ansible-retry</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#squash_actions"> #squash_actions = apk,apt,dnf,homebrew,pacman,pkgng,yum,zypper</li>
+                                    <li class="list-group-item">
+                                        <input type="checkbox" name="permission" value="#no_log"> #no_log = False</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#no_target_syslog"> #no_target_syslog = False</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#allow_world_readable_tmpfiles"> #allow_world_readable_tmpfiles = False</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#var_compression_level"> #var_compression_level = 9</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#module_compression"> #module_compression = 'ZIP_DEFLATED'</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#max_diff_size"> #max_diff_size = 1048576</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#merge_multiple_cli_flags"> #merge_multiple_cli_flags = False</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#show_custom_stats"> #show_custom_stats = True</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#inventory_ignore_extensions"> #inventory_ignore_extensions = ~, .orig, .bak, .ini, .cfg, .retry, .pyc,
+                                            .pyo</li>
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="permission" value="#network_group_modules"> #network_group_modules=['eos', 'nxos', 'ios', 'iosxr', 'junos', 'vyos']</li>
+                                        <li class="list-group-item">[privilege_escalation]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#become"> #become=True</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#become_method"> #become_method=sudo</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#become_user"> #become_user=root</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#become_ask_pass"> #become_ask_pass=False</li>
+                                            <li class="list-group-item">[paramiko_connection]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#record_host_keys"> #record_host_keys=False</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#pty"> #pty=False</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#look_for_keys"> #look_for_keys = False</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#host_key_auto_add"> #host_key_auto_add = True</li>
+                                            <li class="list-group-item">[ssh_connection]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#ssh_args"> #ssh_args = -C -o ControlMaster=auto -o ControlPersist=60s</li>
+                                            <li class="list-group-item">#Example</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#control_path_dir"> #control_path_dir = /tmp/.ansible/cp</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#control_path_dir"> #control_path_dir = ~/.ansible/cp</li>
+                                            <li class="list-group-item"> # Example:</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#control_path"> #control_path = %(directory)s/%%h-%%r</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#control_path"> #control_path =</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#pipelining"> #pipelining = False</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#scp_if_ssh"> #scp_if_ssh = smart</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#transfer_method"> #transfer_method = smart</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#sftp_batch_mode"> #sftp_batch_mode = False</li>
+                                            <li class="list-group-item">[persistent_connection]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#connect_timeout"> #connect_timeout = 30</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#connect_retries"> #connect_retries = 30</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#connect_interval"> #connect_interval = 1</li>
+                                            <li class="list-group-item">[accelerate]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#accelerate_port"> #accelerate_port = 5099</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#accelerate_timeout"> #accelerate_timeout = 30</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#accelerate_connect_timeout"> #accelerate_connect_timeout = 5.</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#accelerate_daemon_timeout"> #accelerate_daemon_timeout = 30</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#accelerate_multi_key"> #accelerate_multi_key = yes</li>
+                                            <li class="list-group-item">[selinux]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#libvirt_lxc_noseclabel"> #libvirt_lxc_noseclabel = yes</li>
+                                            <li class="list-group-item">[colors]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#highlight"> #highlight = white</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#verbose"> #verbose = blue</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#warn"> #warn = bright purple</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#error"> #error = red</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#debug"> #debug = dark gray</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#deprecate"> #deprecate = purple</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#skip"> #skip = cyan</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#unreachable"> #unreachable = red</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#ok"> #ok = green</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#changed"> #changed = yellow</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#diff_add"> #diff_add = green</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#diff_remove"> #diff_remove = red</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#diff_lines"> #diff_lines = cyan</li>
+                                            <li class="list-group-item">[diff]</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#always"> #always = no</li>
+                                            <li class="list-group-item">
+                                                <input type="checkbox" name="permission" value="#context"> #context = 3</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+
+</body></html>
