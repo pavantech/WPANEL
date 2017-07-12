@@ -1,4 +1,5 @@
-<html><head>
+<html>
+<head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -75,24 +76,28 @@
 	<div class="panel-heading"><h3 class="panel-title">ADDING HOST INFORMAION</h3></div><div class="panel-body">
 	<div class="container">
 	<div class="row"><div class="col-md-12">
-	<form role="form">
+	<form class="form-horizontal" action="{{ url_for('inserthostip') }}" role="form" method="post" id="register-form" novalidate="novalidate">
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">Group Name</label>
-	<input class="form-control" style="width: 250px;" id="exampleInputEmail1" placeholder="Enter email" type="text"></div>
+	<input class="form-control" style="width: 250px;" id="groupname" name="groupname" placeholder="Enter email" type="text"></div>
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">HOSTIP OR HOSTNAME</label>
-	<input class="form-control" style="width: 250px;" id="exampleInputEmail1" placeholder="Enter email" type="text"></div>
+	<input class="form-control" style="width: 250px;" id="hostip" name="hostip" placeholder="Enter hostip" type="text"></div>
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">Username</label>
-	<input class="form-control"  style="width: 250px;" id="exampleInputEmail1" placeholder="Enter email" type="text"></div>
+	<input class="form-control"  style="width: 250px;" id="username" name="username" placeholder="Enter username" type="text"></div>
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">Password</label>
-	<input class="form-control" style="width: 250px;" id="exampleInputEmail1" placeholder="Enter email" type="text"></div>
+	<input class="form-control" style="width: 250px;" id="password" name="password" placeholder="Enter password" type="password"></div>
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">APPLICATION SERVER HAVING SSH CONFIG TO THIS SERVER</label>
-	<br><input type="checkbox" name="ssh" value="sshadded"> YES &nbsp;&nbsp;&nbsp;&nbsp; <input type="checkbox" name="ssh" value="sshadded"> NO
+	<br><input type="checkbox" name="ssh[]" id="ssh" value="yes"> YES 
 	</div>
-	<button type="submit" class="btn btn-default">Submit</button></form>
+          <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-10">
+                                 <input type="submit" style="font-size: 25px; font-family: Georgia, serif; background: #13232f; height:70px; width:150px; border: 2px solid #008000;border-radius: 20px;" name="submit" value="Submit" />
+
+                               </div></div> </form>
 	</div></div></div></div></div></div>
 	</body>
 	<script>

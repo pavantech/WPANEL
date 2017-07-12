@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template
+from flask import Flask, redirect,url_for, render_template
 from flask import request
-app = Flask(__name__)
+import sys
+sys.path.insert(0, r'src/')
+from selectDatabase import select
+from connect import connect 
 
+app = Flask(__name__)
+@app.before_request
+def before_request():
+    connect()
 
 @app.route('/')
 def index():
@@ -14,7 +21,7 @@ def signup():
 @app.route('/sign-in.html')
 def signin():
    return render_template('sign-in.html')
-@app.route('/login/addhost.html')
+@app.route('/addhost')
 def addhost():
    return render_template('addhost.html')
 @app.route('/login/addgroup.html')
@@ -37,7 +44,7 @@ def runsingleyml():
 def indexmain():
    return render_template('index.html')
 
-@app.route('/hello/', methods=['POST'])
+@app.route('/hello/', methods=['GET', 'POST'])
 def hello():
     email=request.form['email']
     password=request.form['password']
@@ -49,11 +56,23 @@ def  login():
     email=request.form['email']
     password=request.form['password']
     if(email=="mvvpavan@gmail.com"  and password=="password") :
-        return render_template('addhost.html')
+        return redirect(url_for('addhost'))
     else:
-    	return render_template('index.html')
+    	return redirect(url_for('/'))
+
+
+@app.route('/inserthost/', methods=['POST'])
+def inserthostip():
+    hostip = request.form['hostip']
+    username = request.form['username']
+    password = request.form['password']
+    groupname= request.form['groupname']
+    ssl = request.form.getlist('ssl[]')
+    print(hostip + username +password +groupname)
+    return  redirect(url_for('addhost'))
+
 
 if __name__ == '__main__':
    app.debug = True
-   app.run()
+   app.run(host="0.0.0.0")
    app.run(debug = True)
