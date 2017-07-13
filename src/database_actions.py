@@ -6,7 +6,7 @@ class Database_actions:
         self.cursor = cursor
         
    def create_tables(self):
-        """ create tables in the PostgreSQL database"""
+        #""" create tables in the PostgreSQL database"""
        # commands = (
       #  """
       #   CREATE TABLE IF NOT EXISTS hostlist( id serial PRIMARY KEY, hostip VARCHAR (50) UNIQUE NOT NULL, 
@@ -20,10 +20,13 @@ class Database_actions:
       #		)
       #  """,
       # """
-      #  self.cursor.execute('CREATE TABLE IF NOT EXISTS roleList(id serial PRIMARY KEY, rolename VARCHAR (50) UNIQUE NOT NULL, location VARCHAR (50));')
-        self.cursor.execute('CREATE TABLE  Singleymlfile(id serial PRIMARY KEY, singlefilename VARCHAR (50) UNIQUE NOT NULL,location VARCHAR (50));')
-        self.cursor.execute("CREATE TABLE  playbookList(id serial PRIMARY KEY, playbookname VARCHAR (50) UNIQUE NOT NULL, location VARCHAR (50));")
-        self.cursor.execute("INSERT INTO roleList(rolename, location) VALUES('java','/opt')")
+         self.cursor.execute(' CREATE TABLE IF NOT EXISTS hostlist( id serial PRIMARY KEY, hostip VARCHAR (50) UNIQUE NOT NULL, username VARCHAR (50), password VARCHAR (50),groupname VARCHAR (50), ssl VARCHAR(20))')
+         self.cursor.execute('CREATE TABLE IF NOT EXISTS groupList(id serial PRIMARY KEY, groupname VARCHAR (50) UNIQUE NOT NULL)')
+         self.cursor.execute('CREATE TABLE IF NOT EXISTS roleList(id serial PRIMARY KEY, rolename VARCHAR (50) UNIQUE NOT NULL, location VARCHAR (50))')
+         self.cursor.execute('CREATE TABLE IF NOT EXISTS Singleymlfile(id serial PRIMARY KEY, singlefilename VARCHAR (50) UNIQUE NOT NULL,location VARCHAR (50))')
+         self.cursor.execute('CREATE TABLE IF NOT EXISTS playbookList(id serial PRIMARY KEY, playbookname VARCHAR (50) UNIQUE NOT NULL, location VARCHAR (50))')
+         self.conn.commit()
+        
        
    def inserthostlist_data(self, hostip, username, password, groupname, ssl):
              """ insert multiple record into the hostlist table  """

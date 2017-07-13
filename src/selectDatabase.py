@@ -12,12 +12,12 @@ def select():
            #db = Database_actions(conn,cur)
            # execute a statement
            print('PostgreSQL database version:')
-           cur.execute('SELECT * from rolelist')
+           #cur.execute('SELECT * from rolelist')
          # display the PostgreSQL database server version
            #cur.execute(Database_actions(conn,cur).create_tables())
            #cur.execute('CREATE TABLE  roleList(roleid serial PRIMARY KEY, rolename VARCHAR(50), location VARCHAR(50));')
-           db_version = cur.fetchall()
-           print(db_version)
+           #db_version = cur.fetchall()
+           #print(db_version)
            print("print list of tables exist")
            for table in  Database_actions(conn,cur).getTablesList():
                print(table)
