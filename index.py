@@ -24,19 +24,19 @@ def signin():
 @app.route('/addhost')
 def addhost():
    return render_template('addhost.html')
-@app.route('/login/addgroup.html')
+@app.route('/addgroup.html')
 def addgroup():
    return render_template('addgroup.html')
-@app.route('/login/addpermission.html')
+@app.route('/addpermission.html')
 def addpermission():
    return render_template('addpermission.html')
-@app.route('/login/uploadrole.html')
+@app.route('/uploadrole.html')
 def uploadrole():
    return render_template('uploadrole.html')
-@app.route('/login/uploadplaybook.html')
+@app.route('/uploadplaybook.html')
 def uploadplaybook():
    return render_template('uploadplaybook.html')
-@app.route('/login/runsingleyml.html')
+@app.route('/runsingleyml.html')
 def runsingleyml():
    return render_template('runsingleyml.html')
 
@@ -67,8 +67,14 @@ def inserthostip():
     username = request.form['username']
     password = request.form['password']
     groupname= request.form['groupname']
-    ssl = request.form.getlist('ssl[]')
-    print(hostip + username +password +groupname)
+    #ssl = request.form('ssl')
+    #ssl = request.form.getlist('ssl[]')
+    check = request.form.get('ssl', default=False, type=bool)
+    if check:
+       ssl="checked"
+    else:
+        ssl="not checked"
+    print(hostip + username +password +groupname+ssl)
     return  redirect(url_for('addhost'))
 
 

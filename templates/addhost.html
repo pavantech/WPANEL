@@ -37,10 +37,10 @@
                             <a href="#">Home</a>
                         </li>
                         <li>
-                            <a href="addhost.html">Add Host</a>
+                            <a href="{{ url_for('addhost') }}">Add Host</a>
                         </li>
                         <li>
-                            <a href="addgroup.html">Add Group</a>
+                            <a href="{{ url_for('addgroup') }}">Add Group</a>
                         </li>
                         <li class="dropdown-submenu">
                         <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
@@ -91,7 +91,7 @@
 	<input class="form-control" style="width: 250px;" id="password" name="password" placeholder="Enter password" type="password"></div>
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">APPLICATION SERVER HAVING SSH CONFIG TO THIS SERVER</label>
-	<br><input type="checkbox" name="ssh[]" id="ssh" value="yes"> YES 
+	<br><input type="checkbox" name="ssh" id="ssh" value="yes"> YES 
 	</div>
           <div class="form-group">
                                 <div class="col-sm-offset-1 col-sm-10">
