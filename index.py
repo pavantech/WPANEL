@@ -3,14 +3,18 @@ from flask import Flask, redirect,url_for, render_template
 from flask import request
 
 import sys
+import re
 sys.path.insert(0, r'src/')
 from selectDatabase import select
 from connect import connect 
-
+from database_actions import Database_actions
+newlist=[]
+removedquoteslist=[]
 app = Flask(__name__)
 @app.before_request
 def before_request():
-    connect()
+   conn,cur=connect()
+   Database_actions(conn,cur).create_tables()
 
 @app.route('/')
 def index():
@@ -24,8 +28,19 @@ def signin():
    return render_template('sign-in.html')
 @app.route('/addhost')
 def addhost():
-   return render_template('addhost.html')
-@app.route('/addgroup.html')
+    global newlist, removedquoteslist
+    del newlist[:]
+    del removedquoteslist[:]
+    conn,cur= connect()
+    for groupname in  Database_actions(conn,cur).getgroupNames():
+           newlist.append(re.findall(r"\('(.*?)',\)", str(groupname)))
+    removesquarebrackets=str(newlist).replace('[','').replace(']','')
+    pattern = re.compile("\s*,\s*|\s+$")
+    afterlist=pattern.split(removesquarebrackets)
+    for i in afterlist:
+      removedquoteslist.append(i.replace("'", ""))
+    return render_template('addhost.html',  groupnames=removedquoteslist)
+@app.route('/addgroup')
 def addgroup():
    return render_template('addgroup.html')
 @app.route('/addpermission.html')
@@ -68,16 +83,23 @@ def inserthostip():
     username = request.form['username']
     password = request.form['password']
     groupname= request.form['groupname']
-    #ssl = request.form('ssl')
-    #ssl = request.form.getlist('ssl[]')
-    check = request.form.get('ssl', default=False, type=bool)
-    if check:
-       ssl="checked"
+    ssl = request.form.getlist('ssl')
+    if ssl[0]=="yes":
+       check="checked"
     else:
-        ssl="not checked"
-    print(hostip + username +password +groupname+ssl)
+       check="not checked" 
+    conn,cur= connect()
+    sql,data=Database_actions(conn,cur).inserthostlist_data(hostip, username, password, groupname, check)
+    cur.execute(sql,data)
+    conn.commit()
     return  redirect(url_for('addhost'))
 
+@app.route('/insertgroup/', methods=['POST'])
+def insertgroup():
+    groupname= request.form['groupname']
+    conn,cur= connect()
+   result=Database_actions(conn,cur).insertgroupname_data(groupname)
+    return  redirect(url_for('addgroup'), results=result)
 
 if __name__ == '__main__':
    app.debug = True

@@ -1,11 +1,13 @@
+import re
 import sys
 import psycopg2
 #sys.path.insert(0, r'../lib/')
 from connect import *
 from database_actions import Database_actions
 from connectionclose import close
-
+total=[]
 def select():
+      global total
       try :
            print("Creating Object")
            conn,cur=connect()
@@ -20,7 +22,13 @@ def select():
            #print(db_version)
            print("print list of tables exist")
            for table in  Database_actions(conn,cur).getTablesList():
-               print(table)
+              total.append(re.findall(r"\('(.*?)',\)", str(table)))
+           sp=str(total).replace('[','').replace(']','')
+           pattern = re.compile("\s*,\s*|\s+$")
+           x=pattern.split(sp)
+           for i in x:
+             print(i.replace("'", ""))
+         
            print(len(Database_actions(conn,cur).getTablesList()))
            if(len(Database_actions(conn,cur).getTablesList())!=5):
              print("condition pass")
