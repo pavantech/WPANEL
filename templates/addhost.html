@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbar-ex-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active">
-                            <a href="#">Home</a>
+                            <a href="{{ url_for('dashboard') }}">Home</a>
                         </li>
                         <li>
                             <a href="{{ url_for('addhost') }}">Add Host</a>
@@ -58,9 +58,6 @@
 							<li><a tabindex="-1" href="#">RUN SINGLE YML</a></li>
                           </ul>
                        </li>
-                        <li>
-                            <a href="#">Settings</a>
-                        </li>
                         <li>
                             <a href="#">Sign out</a>
                         </li>

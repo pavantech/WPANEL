@@ -1,0 +1,138 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+  </head>
+<script>
+	.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 20;
+    left: 100%;
+    margin-top: 30px;
+}
+</script>
+<body>
+     <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>DASHBOARD</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="{{ url_for('dashboard') }}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('addhost') }}">Add Host</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('addgroup') }}">Add Group</a>
+                        </li>
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD</a></li>
+                            <li><a tabindex="-1" href="{{ url_for('addpermission') }}">UNCOMMENT</a></li>
+							</ul>
+                       </li>
+					
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
+                            <li><a tabindex="-1" href="#">UPLOAD PLAYBOOK</a></li>
+							<li><a tabindex="-1" href="#">RUN SINGLE YML</a></li>
+                          </ul>
+                       </li>
+                        <li>
+                            <a href="#">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#">Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-center">RUN PLAYBOOKS</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <a><img src="http://adooylabs.com/images/tech/postgresql.png" class="img-responsive"></a>
+            <a href="{{ url_for('runplugins') }}"><h3>POSTGRESQL</h3></a>
+            <p>WPANEL provides the ansible playbook. We can install  postgres sql by single click. We can install by the group or individual install. we can install by without register host. &nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="https://www.cloudbees.com/sites/default/files/Jenkins_8.png" class="img-responsive"></a>
+            <a href="{{ url_for('runplugins') }}"><h2>JENKINS</h2></a>
+            <p>WPANEL provides the ansible playbook. We can install  jenkins by single click. We can install by the group or individual install. we can install by without register host.&nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="http://static.open-open.com/lib/uploadImg/20150803/20150803161742_666.jpg" class="img-responsive"></a>
+            <a href="{{ url_for('runplugins') }}"><h2>DOCKER</h2></a>
+            <p>WPANEL provides the ansible playbook. We can install  docker by single click. We can install by the group or individual install. we can install by without register host.&nbsp;</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <a><img src="https://tedvinke.files.wordpress.com/2016/02/sonarqube-logo.png" class="img-responsive"></a>
+           <a  href="{{ url_for('runplugins') }}"> <h3>SONAR QUBE</h3></a>
+            <p>WPANEL provides the ansible playbook. We can install  sonarqube by single click. We can install by the group or individual install. we can install by without register host.&nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAk4AAAAJGQ4ZTM1YmE5LWQzNjUtNDkwOS1iZmMyLTYzNzM4NGZhZWNhMw.png" class="img-responsive"></a>
+            <a href="{{ url_for('runplugins') }}"><h3>DOKCER TOMCAT SERVER</h3></a>
+            <p>WPANEL provides the ansible playbook. We can install  Docker Tomcat server by single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/ansible_playbooks_tw.jpg" class="img-responsive"></a>
+            <a  href="{{ url_for('runplugins') }}"><h2 draggable="true">RUN YOUR PLAYBOOK</h2></a>
+            <p>WPANEL provides the ansible playbook. you can run the playbook by single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
+          </div>
+        </div>
+		<div class="row">
+          <div class="col-md-4">
+            <a><img src="https://tech.jet.com/wp-content/uploads/2016/10/playbook-300x254.png" class="img-responsive"></a>
+            <a  href="{{ url_for('runplugins') }}"><h3>RUN YOUR ROLES</h3></a>
+            <p>WPANEL provides the ansible playbook. you can your role  by single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="https://cdn1.iconfinder.com/data/icons/hawcons/32/699614-icon-103-document-file-yml-512.png" class="img-responsive"></a>
+            <a  href="{{ url_for('addpermission') }}"><h3>RUN YOUR SINGLE YML FILE</h3></a>
+            <p>WPANEL provides the ansible playbook. test yml bt single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
+          </div>
+          <div class="col-md-4">
+            <a><img src="https://www.cticit.com/home.html/images/services/2.png" class="img-responsive"></a>
+            <a  href="{{ url_for('addpermission') }}"><h2 draggable="true">CHECK HOST INFORMATION</h2></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit,&nbsp;</p>
+          </div>
+      </div>
+    </div>
+  <script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+
+</body></html>

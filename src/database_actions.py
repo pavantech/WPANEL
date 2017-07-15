@@ -1,7 +1,9 @@
 #!/usr/bin/python -W ignore::DeprecationWarning
 
+var = "false"
+
 class Database_actions:
-   var="false"
+  
    def __init__(self, conn, cursor):
         self.conn = conn
         self.cursor = cursor
@@ -31,12 +33,12 @@ class Database_actions:
    def insertgroupname_data(self, groupname):
           """ insert multiple record into the hostlist table  """
           print("gname:"+groupname)
+          global var
           sql = "INSERT INTO grouplist(groupname) VALUES(%s)"
 	  data = (groupname,)
           self.cursor.execute("""SELECT groupname FROM grouplist""")
           #if groupname in self.cursor.fetchall(): 
           #  print 'success'
-          global var
           for table in self.cursor.fetchall():
                if  groupname in table:
                   var="true"
@@ -69,8 +71,9 @@ class Database_actions:
 
    def getgroupNames(self):
         self.cursor.execute("""SELECT groupname FROM grouplist""")
-        #for table in self.cursor.fetchall():
-        #   print(table)
         return self.cursor.fetchall()
 
+   def getipNames(self):
+        self.cursor.execute("""SELECT hostip FROM hostlist""")
+        return self.cursor.fetchall()
 

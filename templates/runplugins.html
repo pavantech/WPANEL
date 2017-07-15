@@ -1,0 +1,155 @@
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+      <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+      <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
+   </head>
+    <script>
+        .dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 20;
+    left: 100%;
+    margin-top: 30px;
+}
+</script>
+
+   <body>
+       <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><span>DASHBOARD</span></a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="{{ url_for('dashboard') }}">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('addhost') }}">Add Host</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('addgroup') }}">Add Group</a>
+                        </li>
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD</a></li>
+                            <li><a tabindex="-1" href="{{ url_for('addpermission') }}">UNCOMMENT</a></li>
+                                                        </ul>
+                       </li>
+
+                        <li class="dropdown-submenu">
+                        <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                             <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
+                            <li><a tabindex="-1" href="#">UPLOAD PLAYBOOK</a></li>
+                                                        <li><a tabindex="-1" href="#">RUN SINGLE YML</a></li>
+                          </ul>
+                       </li>
+                        <li>
+                            <a href="#">Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      <div class="section">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-4">
+                  <h3 style="margin-left:50px" >GROUP</h3>
+               </div>
+			    <div class="col-md-4">
+                  <h3 style="margin-left:50px" >SINGLE</h3>
+               </div>
+			    <div class="col-md-4">
+                  <h3 style="margin-left:50px" >NOT REGISTERED</h3>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-4">
+                  <form role="form" action="index.html">
+                     <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Select Group</label>
+                                          <select class="form-control" style="width: 250px;"   name="groupname" width="300px">
+                                          {% for names in groupnames %}
+                                          <option value="{{ names }}">{{ names }}</option>
+                                         {% endfor %}
+                                         </select>
+					 </div>
+					 <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Select ROLE</label>
+                     <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+					 </div>
+                     <div class="form-group"><label class="control-label" for="exampleInputPassword1">Password</label><input class="form-control" id="exampleInputPassword1" placeholder="Password" type="password"></div>
+                     <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+               </div>
+               <div class="col-md-4">
+                  <form role="form" action="index2.html">
+                     <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Select Hostname OR IPaddress</label>
+                                           <select class="form-control" style="width: 250px;"   name="groupname" width="300px">
+                                            {% for names in ipnames %}
+                                            <option value="{{ names }}">{{ names }}</option>
+                                            {% endfor %}
+                                            </select>
+					 </div>
+					 <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Select ROLE</label>
+                     <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+					 </div>
+					 <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+               </div>
+               <div class="col-md-4">
+                  <form role="form">
+				     <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Hostname OR IPaddress</label>
+                     <input type="text" class="form-control" id="inputEmail3" placeholder="ENTER HOSTNAME">
+					 </div>
+					 <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Username</label>
+                     <input type="text" class="form-control" id="inputEmail3" placeholder="ENETR  USERNAME">
+					 </div>
+					 <div class="form-group">
+					 <label for="inputEmail3" class="control-label">Password</label>
+                     <input type="password" class="form-control" id="inputEmail3" placeholder="ENETR PASSWORD">
+					 </div>
+					 <div class="form-group">
+					 <label for="inputEmail3" class="control-label">SSL KEY PAIRED ADDED</label><br>
+                     <input type="checkbox"> SSL
+					 </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+	  
+	 <script>
+$(document).ready(function(){
+  $('.dropdown-submenu a.test').on("click", function(e){
+    $(this).next('ul').toggle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
+});
+</script>
+
+   </body>
+</html>
+
+
