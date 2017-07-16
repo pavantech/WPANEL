@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, redirect,url_for, render_template
 from flask import request
-
-
+import os
+import git
 import sys
 import re
+from distutils.dir_util import copy_tree
+import shutil
+
+
 sys.path.insert(0, r'src/')
 from selectDatabase import select
 from connect import connect 
 from database_actions import Database_actions
+from runplaybooks import runplaybooks
 newlist=[]
 removedquoteslist=[]
 iplist=[]
@@ -17,6 +22,18 @@ ipremovedquoteslist=[]
 app = Flask(__name__)
 @app.before_request
 def before_request():
+   owd = os.getcwd()
+   try:
+        root, dirs, files = os.walk("external/plugins/").next()
+        print dirs
+        if dirs==[]:
+          os.chdir("external/plugins/")
+          git.Git().clone("https://github.com/pavantech/Ansible_Playbook.git")
+        else:
+           print "not empty"
+   finally:
+        #change dir back to original working directory (owd)
+        os.chdir(owd)
    conn,cur=connect()
    Database_actions(conn,cur).create_tables()
 
@@ -30,7 +47,28 @@ def dashboard():
 
 @app.route('/runplugins')
 def runplugins():
-   return render_template('runplugins.html')
+    global newlist, removedquoteslist
+    del newlist[:]
+    del removedquoteslist[:]
+    del iplist[:]
+    del ipremovedquoteslist[:]
+    conn,cur= connect()
+    for groupname in  Database_actions(conn,cur).getgroupNames():
+           newlist.append(re.findall(r"\('(.*?)',\)", str(groupname)))
+    removesquarebrackets=str(newlist).replace('[','').replace(']','')
+    pattern = re.compile("\s*,\s*|\s+$")
+    afterlist=pattern.split(removesquarebrackets)
+    for i in afterlist:
+      removedquoteslist.append(i.replace("'", ""))
+    for ipname in  Database_actions(conn,cur).getipNames():
+           iplist.append(re.findall(r"\('(.*?)',\)", str(ipname)))
+    removesquarebrackets1=str(iplist).replace('[','').replace(']','')
+    afterlist1=pattern.split(removesquarebrackets1)
+    for i in afterlist1:
+      ipremovedquoteslist.append(i.replace("'", ""))
+   
+    root, dirs, files = os.walk("external/plugins/Ansible_Playbook/").next()
+    return render_template('runplugins.html',  groupnames=removedquoteslist, ipnames=ipremovedquoteslist, rolenames=dirs[1:])
 
 
 @app.route('/sign-up.html')
@@ -54,30 +92,20 @@ def addhost():
       removedquoteslist.append(i.replace("'", ""))
     return render_template('addhost.html',  groupnames=removedquoteslist)
 
-@app.route('/runplaybookplugin')
+@app.route('/runplaybookplugin/', methods=['POST'])
 def runplaybookplugin():
-    global newlist, removedquoteslist
-    del newlist[:]
-    del removedquoteslist[:]
-    del iplist[:]
-    del ipremovedquoteslist[:]
-    conn,cur= connect()
-    for groupname in  Database_actions(conn,cur).getgroupNames():
-           newlist.append(re.findall(r"\('(.*?)',\)", str(groupname)))
-    removesquarebrackets=str(newlist).replace('[','').replace(']','')
-    pattern = re.compile("\s*,\s*|\s+$")
-    afterlist=pattern.split(removesquarebrackets)
-    for i in afterlist:
-      removedquoteslist.append(i.replace("'", ""))
-    for ipname in  Database_actions(conn,cur).getipNames():
-           iplist.append(re.findall(r"\('(.*?)',\)", str(groupipname)))
-    removesquarebrackets1=str(newlist).replace('[','').replace(']','')
-    afterlist1=pattern.split(removesquarebrackets1)
-    for i in afterlist1:
-      ipremovedquoteslist.append(i.replace("'", ""))    
-    
-    return render_template('addhost.html',  groupnames=removedquoteslist, ipnames=ipremovedquoteslist)
-
+    groupname= request.form.getlist('groupname')
+    role = request.form.getlist('rolename')
+    print(groupname)
+    print(role)
+    runplaybooks().runplaybookgroup(groupname,role)
+    return render_template('dashboard')
+@app.route('/runplaybookhostname/', methods=['POST'])
+def runplaybookhostname():
+    return render_template('dashboard.html')
+@app.route('/runplaybookNotRegister/', methods=['POST'])
+def runplaybookNotRegister():
+   return render_template('dashboard')
 
 @app.route('/addgroup')
 def addgroup():
