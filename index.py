@@ -7,8 +7,8 @@ import sys
 import re
 from distutils.dir_util import copy_tree
 import shutil
-
-
+import subprocess
+import datetime
 sys.path.insert(0, r'src/')
 from selectDatabase import select
 from connect import connect 
@@ -18,7 +18,7 @@ newlist=[]
 removedquoteslist=[]
 iplist=[]
 ipremovedquoteslist=[]
-
+consolelist=[]
 app = Flask(__name__)
 @app.before_request
 def before_request():
@@ -39,7 +39,13 @@ def before_request():
 
 @app.route('/')
 def index():
-   return render_template('index.html')
+   return render_template('sign-in.html')
+
+@app.route('/signout')
+def signout():
+   conn,cur=connect()
+   conn.close()
+   return render_template('sign-in.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -94,18 +100,83 @@ def addhost():
 
 @app.route('/runplaybookplugin/', methods=['POST'])
 def runplaybookplugin():
+    global consolelist
+    del consolelist[:]
     groupname= request.form.getlist('groupname')
     role = request.form.getlist('rolename')
-    print(groupname)
+    print(groupname[0])
     print(role)
-    runplaybooks().runplaybookgroup(groupname,role)
-    return render_template('dashboard')
+    dir=runplaybooks().runplaybookgroup(groupname,role)
+    owd = os.getcwd()
+    now = datetime.datetime.now()
+    f = open('log/log'+now.isoformat()+'.log', 'a')
+    os.chdir(dir)
+    print(os.getcwd())
+    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for line in p.stdout.readlines():
+         print line,
+         consolelist.append(line)
+         f.write(line)
+    retval = p.wait()
+    print(retval)
+    f.close()
+    os.chdir(owd)
+    os.system('rm -rf '+dir)
+    files = os.listdir('log/')  
+    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
 @app.route('/runplaybookhostname/', methods=['POST'])
 def runplaybookhostname():
-    return render_template('dashboard.html')
+    global consolelist
+    del consolelist[:]
+    hostname= request.form.getlist('hostname')
+    role = request.form.getlist('rolename')
+    print(role)
+    dir=runplaybooks().runplaybookhost(hostname,role)
+    owd = os.getcwd()
+    now = datetime.datetime.now()
+    f = open('log/log'+now.isoformat()+'.log', 'a')
+    os.chdir(dir)
+    print(os.getcwd())
+    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for line in p.stdout.readlines():
+         print line,
+         consolelist.append(line)
+         f.write(line)
+    retval = p.wait()
+    print(retval)
+    f.close()
+    os.chdir(owd)
+    os.system('rm -rf '+dir)
+    files = os.listdir('log/')
+    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
+
 @app.route('/runplaybookNotRegister/', methods=['POST'])
 def runplaybookNotRegister():
-   return render_template('dashboard')
+    global consolelist
+    del consolelist[:]
+    hostname=request.form['hostname']
+    username=request.form['username']
+    password=request.form['password']
+    role = request.form.getlist('rolename')
+    print(role)
+    dir=runplaybooks().runplaybookhostnoregister(hostname,username,password,role)
+    owd = os.getcwd()
+    now = datetime.datetime.now()
+    f = open('log/log'+now.isoformat()+'.log', 'a')
+    os.chdir(dir)
+    print(os.getcwd())
+    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for line in p.stdout.readlines():
+         print line,
+         consolelist.append(line)
+         f.write(line)
+    retval = p.wait()
+    print(retval)
+    f.close()
+    os.chdir(owd)
+    os.system('rm -rf '+dir)
+    files = os.listdir('log/')
+    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
 
 @app.route('/addgroup')
 def addgroup():
@@ -138,10 +209,11 @@ def hello():
 def  login():
     email=request.form['email']
     password=request.form['password']
-    if(email=="mvvpavan@gmail.com"  and password=="password") :
+    if(email=="admin"  and password=="admin") :
         return redirect(url_for('dashboard'))
     else:
-    	return redirect(url_for('/'))
+        messages="Please use username admin and password admin"
+    	return redirect(url_for('signin'), messages=messages)
 
 
 @app.route('/inserthost/', methods=['POST'])
@@ -150,11 +222,11 @@ def inserthostip():
     username = request.form['username']
     password = request.form['password']
     groupname= request.form['groupname']
-    ssl = request.form.getlist('ssl')
-    if ssl[0]=="yes":
-       check="checked"
-    else:
-       check="not checked" 
+    #ssl = request.form.getlist('ssl')
+    #if ssl[0]=="yes":
+    #   check="checked"
+    #else:
+    check="not checked" 
     conn,cur= connect()
     sql,data=Database_actions(conn,cur).inserthostlist_data(hostip, username, password, groupname, check)
     cur.execute(sql,data)
@@ -166,7 +238,7 @@ def insertgroup():
     groupname= request.form['groupname']
     conn,cur= connect()
     result=Database_actions(conn,cur).insertgroupname_data(groupname)
-    return  redirect(url_for('addgroup'), results=result)
+    return  redirect(url_for('addgroup'))
 
 if __name__ == '__main__':
    app.debug = True

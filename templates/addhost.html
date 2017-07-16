@@ -17,6 +17,11 @@
     left: 100%;
     margin-top: 30px;
 }
+
+.hide{
+  display:none;
+}
+
 </script>
 	<body>
 
@@ -42,7 +47,7 @@
                         <li>
                             <a href="{{ url_for('addgroup') }}">Add Group</a>
                         </li>
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD</a></li>
@@ -50,7 +55,7 @@
 							</ul>
                        </li>
 					
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
@@ -59,7 +64,7 @@
                           </ul>
                        </li>
                         <li>
-                            <a href="#">Sign out</a>
+                            <a href="{{url_for('signout')}}">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -92,7 +97,7 @@
 	<div class="form-group">
 	<label class="control-label" for="exampleInputEmail1">Password</label>
 	<input class="form-control" style="width: 250px;" id="password" name="password" placeholder="Enter password" type="password"></div>
-	<div class="form-group">
+	<div class="form-group hide">
 	<label class="control-label" for="exampleInputEmail1">SSH AUTHORIZATION KEY ADDED</label>
 	<br><input type="checkbox" name="ssl" id="ssl" value="yes"> YES 
 	</div>

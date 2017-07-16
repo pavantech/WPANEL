@@ -16,7 +16,13 @@
     left: 100%;
     margin-top: 30px;
 }
+
+.hide{
+  display:none;
+}
 </script>
+
+
 <body>
      <div class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -40,7 +46,7 @@
                         <li>
                             <a href="{{ url_for('addgroup') }}">Add Group</a>
                         </li>
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD</a></li>
@@ -48,7 +54,7 @@
 							</ul>
                        </li>
 					
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
@@ -60,7 +66,7 @@
                             <a href="#">Settings</a>
                         </li>
                         <li>
-                            <a href="#">Sign out</a>
+                            <a href="{{url_for('signout')}}">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -101,13 +107,13 @@
             <a href="{{ url_for('runplugins') }}"><h3>DOKCER TOMCAT SERVER</h3></a>
             <p>WPANEL provides the ansible playbook. We can install  Docker Tomcat server by single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 hide">
             <a><img src="https://community-cdn-digitalocean-com.global.ssl.fastly.net/assets/tutorials/images/large/ansible_playbooks_tw.jpg" class="img-responsive"></a>
             <a  href="{{ url_for('runplugins') }}"><h2 draggable="true">RUN YOUR PLAYBOOK</h2></a>
             <p>WPANEL provides the ansible playbook. you can run the playbook by single click. We can install by the group or individuall install. we can install by without register host.&nbsp;</p>
           </div>
         </div>
-		<div class="row">
+		<div class="row hide">
           <div class="col-md-4">
             <a><img src="https://tech.jet.com/wp-content/uploads/2016/10/playbook-300x254.png" class="img-responsive"></a>
             <a  href="{{ url_for('runplugins') }}"><h3>RUN YOUR ROLES</h3></a>

@@ -16,6 +16,12 @@
     left: 100%;
     margin-top: 30px;
 }
+
+.hide{
+  display:none;
+}
+
+
 </script>
 	<body>
     <div class="navbar navbar-default navbar-static-top">
@@ -40,7 +46,7 @@
                         <li>
                             <a href="{{ url_for('addgroup') }}">Add Group</a>
                         </li>
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD</a></li>
@@ -48,7 +54,7 @@
 							</ul>
                        </li>
 					
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li>
@@ -64,7 +70,7 @@
                        </li>
                     
                     <li>
-                        <a href="#">Sign out</a>
+                        <a href="{{url_for('signout')}}">Sign out</a>
                     </li>
                 </ul>
             </div>

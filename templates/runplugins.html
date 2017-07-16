@@ -23,6 +23,11 @@
     margin-top: 30px;
 }
 
+.hide{
+  display:none;
+}
+
+
 </script>
 
    <body>
@@ -48,7 +53,7 @@
                         <li>
                             <a href="{{ url_for('addgroup') }}">Add Group</a>
                         </li>
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD</a></li>
@@ -56,7 +61,7 @@
                                                         </ul>
                        </li>
 
-                        <li class="dropdown-submenu">
+                        <li class="dropdown-submenu hide">
                         <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                              <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
@@ -65,7 +70,7 @@
                           </ul>
                        </li>
                         <li>
-                            <a href="#">Sign out</a>
+                            <a href="{{url_for('signout')}}">Sign out</a>
                         </li>
                     </ul>
                 </div>
@@ -112,7 +117,7 @@
                   <form role="form" action="{{ url_for('runplaybookhostname') }}" role="form" method="post" id="register-form" novalidate="novalidate" autocomplete="on">
                      <div class="form-group">
 					 <label for="inputEmail3" class="control-label">Select Hostname OR IPaddress</label>
-                                           <select class="form-control" style="width: 250px;"   name="ipname" width="300px">
+                                           <select class="form-control" style="width: 250px;"   name="hostname" width="300px">
                                             {% for names in ipnames %}
                                             <option value="{{ names }}">{{ names }}</option>
                                             {% endfor %}
@@ -134,15 +139,15 @@
                   <form role="form" action="{{ url_for('runplaybookNotRegister') }}" role="form" method="post" id="register-form" novalidate="novalidate" autocomplete="on">
 				     <div class="form-group">
 					 <label for="inputEmail3" class="control-label">Hostname OR IPaddress</label>
-                     <input type="text" class="form-control" id="inputEmail3" placeholder="ENTER HOSTNAME">
+                     <input type="text" class="form-control" id="hostname" name="hostname" placeholder="ENTER HOSTNAME">
 					 </div>
 					 <div class="form-group">
 					 <label for="inputEmail3" class="control-label">Username</label>
-                     <input type="text" class="form-control" id="inputEmail3" placeholder="ENETR  USERNAME">
+                     <input type="text" class="form-control" id="username" name="username" placeholder="ENETR  USERNAME">
 					 </div>
 					 <div class="form-group">
 					 <label for="inputEmail3" class="control-label">Password</label>
-                     <input type="password" class="form-control" id="inputEmail3" placeholder="ENETR PASSWORD">
+                     <input type="password" class="form-control" id="password" name="password" placeholder="ENETR PASSWORD">
 					 </div>
                                           <div class="form-group">
                                          <label for="inputEmail3" class="control-label">Select ROLE</label>
@@ -153,7 +158,7 @@
                                          </select>
                                          </div>
                                          
-					 <div class="form-group">
+					 <div class="form-group hide">
 					 <label for="inputEmail3" class="control-label">SSH AUTHORIZED KEY PAIRED ADDED</label><br>
                      <input type="checkbox"> SSH
 					 </div>

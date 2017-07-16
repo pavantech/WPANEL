@@ -77,3 +77,7 @@ class Database_actions:
         self.cursor.execute("""SELECT hostip FROM hostlist""")
         return self.cursor.fetchall()
 
+
+
+
+
