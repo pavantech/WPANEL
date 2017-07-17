@@ -1,0 +1,17 @@
+
+PLAY [demo] ******************************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : install the epel relase latest for centos7] *************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : Download JDK rpm file] **********************************************************************************
+ [WARNING]: Consider using get_url or uri module rather than running wget
+fatal: [54.205.224.255]: FAILED! => {"changed": true, "cmd": "wget --no-cookies --no-check-certificate --header \"Cookie:oraclelicense=accept-securebackup-cookie\" \"http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm\"", "delta": "0:00:00.003240", "end": "2017-07-17 06:57:21.317430", "failed": true, "rc": 127, "start": "2017-07-17 06:57:21.314190", "stderr": "/bin/sh: wget: command not found", "stderr_lines": ["/bin/sh: wget: command not found"], "stdout": "", "stdout_lines": []}
+	to retry, use: --limit @/root/demo/WPANEL/rundir2017-07-1706:58:17/main.retry
+
+PLAY RECAP *******************************************************************************************************************
+54.205.224.255             : ok=2    changed=1    unreachable=0    failed=1   
+

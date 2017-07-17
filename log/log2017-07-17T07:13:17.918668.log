@@ -1,0 +1,94 @@
+
+PLAY [demo] ******************************************************************************************************************
+
+TASK [Gathering Facts] *******************************************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : install wget] *******************************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : install git] ********************************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : install the epel relase latest for centos7] *************************************************************
+fatal: [54.205.224.255]: FAILED! => {"changed": true, "failed": true, "msg": "Error: Nothing to do\n", "rc": 1, "results": ["Loaded plugins: amazon-id, rhui-lb, search-disabled-repos\nExamining /var/tmp/yum-root-5c91ez/epel-release-7-10.noarch.rpm: epel-release-7-10.noarch\n/var/tmp/yum-root-5c91ez/epel-release-7-10.noarch.rpm: does not update installed package.\n"]}
+...ignoring
+
+TASK [jenkins_jdk8 : Download JDK rpm file] **********************************************************************************
+ [WARNING]: Consider using get_url or uri module rather than running wget
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : install jdk] ********************************************************************************************
+fatal: [54.205.224.255]: FAILED! => {"changed": true, "failed": true, "msg": "Error: Nothing to do\n", "rc": 1, "results": ["All packages providing jdk-8u131-linux-x64.rpm are up to date", "Loaded plugins: amazon-id, rhui-lb, search-disabled-repos\nExamining jdk-8u131-linux-x64.rpm: 2000:jdk1.8.0_131-1.8.0_131-fcs.x86_64\njdk-8u131-linux-x64.rpm: does not update installed package.\n"]}
+...ignoring
+
+TASK [jenkins_jdk8 : Setting Export JAVA_HOEM AND JRE_HOME] ******************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : Export JAVA_HOME] ***************************************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : EXPORT JRE_HOME] ****************************************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : sorce /etc/profile] *************************************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : installing jenkins process is going] ********************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : jenkins repo import] ************************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : installing jenking using yum] ***************************************************************************
+ok: [54.205.224.255]
+
+TASK [jenkins_jdk8 : start jenkins] ******************************************************************************************
+ [WARNING]: Consider using service module rather than running service
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : delete rpm file] ****************************************************************************************
+ [WARNING]: Consider using file module with state=absent rather than running rm
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : delete rpm file] ****************************************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : checking started jenkins] *******************************************************************************
+changed: [54.205.224.255]
+
+TASK [jenkins_jdk8 : debug] **************************************************************************************************
+ok: [54.205.224.255] => {
+    "message": {
+        "changed": true, 
+        "cmd": "service jenkins status", 
+        "delta": "0:00:00.034416", 
+        "end": "2017-07-17 07:12:32.143614", 
+        "rc": 0, 
+        "start": "2017-07-17 07:12:32.109198", 
+        "stderr": "", 
+        "stderr_lines": [], 
+        "stdout": "● jenkins.service - LSB: Jenkins Automation Server\n   Loaded: loaded (/etc/rc.d/init.d/jenkins; bad; vendor preset: disabled)\n   Active: active (running) since Mon 2017-07-17 07:02:49 EDT; 9min ago\n     Docs: man:systemd-sysv-generator(8)\n  Process: 3431 ExecStart=/etc/rc.d/init.d/jenkins start (code=exited, status=0/SUCCESS)\n   CGroup: /system.slice/jenkins.service\n           └─3446 /etc/alternatives/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=true -DJENKINS_HOME=/var/lib/jenkins -jar /usr/lib/jenkins/jenkins.war --logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war --daemon --httpPort=8080 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20\n\nJul 17 07:02:48 ip-172-31-31-40.ec2.internal systemd[1]: Starting LSB: Jenkins Automation Server...\nJul 17 07:02:48 ip-172-31-31-40.ec2.internal runuser[3432]: pam_unix(runuser:session): session opened for user jenkins by (uid=0)\nJul 17 07:02:49 ip-172-31-31-40.ec2.internal jenkins[3431]: Starting Jenkins [  OK  ]\nJul 17 07:02:49 ip-172-31-31-40.ec2.internal systemd[1]: Started LSB: Jenkins Automation Server.", 
+        "stdout_lines": [
+            "● jenkins.service - LSB: Jenkins Automation Server", 
+            "   Loaded: loaded (/etc/rc.d/init.d/jenkins; bad; vendor preset: disabled)", 
+            "   Active: active (running) since Mon 2017-07-17 07:02:49 EDT; 9min ago", 
+            "     Docs: man:systemd-sysv-generator(8)", 
+            "  Process: 3431 ExecStart=/etc/rc.d/init.d/jenkins start (code=exited, status=0/SUCCESS)", 
+            "   CGroup: /system.slice/jenkins.service", 
+            "           └─3446 /etc/alternatives/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=true -DJENKINS_HOME=/var/lib/jenkins -jar /usr/lib/jenkins/jenkins.war --logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war --daemon --httpPort=8080 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20", 
+            "", 
+            "Jul 17 07:02:48 ip-172-31-31-40.ec2.internal systemd[1]: Starting LSB: Jenkins Automation Server...", 
+            "Jul 17 07:02:48 ip-172-31-31-40.ec2.internal runuser[3432]: pam_unix(runuser:session): session opened for user jenkins by (uid=0)", 
+            "Jul 17 07:02:49 ip-172-31-31-40.ec2.internal jenkins[3431]: Starting Jenkins [  OK  ]", 
+            "Jul 17 07:02:49 ip-172-31-31-40.ec2.internal systemd[1]: Started LSB: Jenkins Automation Server."
+        ], 
+        "warnings": [
+            "Consider using service module rather than running service"
+        ]
+    }
+}
+
+PLAY RECAP *******************************************************************************************************************
+54.205.224.255             : ok=18   changed=12   unreachable=0    failed=0   
+

@@ -80,7 +80,7 @@
                      </div>
                      <div class="panel-body">
 					      {% for names in consolelog %}
-						  <p>{{ names }}</p>
+						  <p>{{ names.decode('utf-8') }}</p>
                            {% endfor %}
                         <p></p>
                      </div>
