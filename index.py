@@ -23,7 +23,9 @@ app = Flask(__name__)
 @app.before_request
 def before_request():
    owd = os.getcwd()
-   try:
+   try:  
+        if os.path.exists("external/plugins/Ansible_Playbook"):
+            os.system("rm -rf external/plugins/Ansible_Playbook")
         root, dirs, files = os.walk("external/plugins/").next()
         print dirs
         if dirs==[]:
