@@ -51,6 +51,18 @@ def signout():
 def dashboard():
    return render_template('dashboard.html')
 
+@app.route('/error.html')
+def errormsg():
+   return render_template('error.html')
+
+@app.route('/login/sign-in.html')
+def error():
+   return render_template('sign-in.html')
+
+@app.route('/message.html')
+def msg():
+   return render_template('message.html')
+
 @app.route('/runplugins')
 def runplugins():
     global newlist, removedquoteslist
@@ -71,11 +83,9 @@ def runplugins():
     removesquarebrackets1=str(iplist).replace('[','').replace(']','')
     afterlist1=pattern.split(removesquarebrackets1)
     for i in afterlist1:
-      ipremovedquoteslist.append(i.replace("'", ""))
-   
+      ipremovedquoteslist.append(i.replace("'", ""))   
     root, dirs, files = os.walk("external/plugins/Ansible_Playbook/").next()
     return render_template('runplugins.html',  groupnames=removedquoteslist, ipnames=ipremovedquoteslist, rolenames=dirs[1:])
-
 
 @app.route('/sign-up.html')
 def signup():
@@ -104,8 +114,16 @@ def runplaybookplugin():
     del consolelist[:]
     groupname= request.form.getlist('groupname')
     role = request.form.getlist('rolename')
-    print(groupname[0])
-    print(role)
+    conn,cur=connect()
+    cur.execute("SELECT * FROM hostlist where groupname='%s'"%groupname[0])
+    data = cur.fetchall()
+    print len(data)
+    if len(data)==0:
+        messages = "Please added atleast one host from addhost menu"
+        return  render_template('message.html', messages = messages)
+    if len(role)==0:
+        messages = "Please add roles at external/plugins folder"
+        return  render_template('message.html', messages = messages)
     dir=runplaybooks().runplaybookgroup(groupname,role)
     owd = os.getcwd()
     now = datetime.datetime.now()
@@ -212,8 +230,8 @@ def  login():
     if(email=="admin"  and password=="admin") :
         return redirect(url_for('dashboard'))
     else:
-        messages="Please use username admin and password admin"
-    	return redirect(url_for('signin'), messages=messages)
+        messages = "Please use username admin and password admin"
+    	return  render_template('error.html', messages = messages)
 
 
 @app.route('/inserthost/', methods=['POST'])
@@ -231,14 +249,17 @@ def inserthostip():
     sql,data=Database_actions(conn,cur).inserthostlist_data(hostip, username, password, groupname, check)
     cur.execute(sql,data)
     conn.commit()
-    return  redirect(url_for('addhost'))
+    messages = "Succcessfully added the host"
+    return  render_template('message.html', messages = messages)
+   
 
 @app.route('/insertgroup/', methods=['POST'])
 def insertgroup():
     groupname= request.form['groupname']
     conn,cur= connect()
     result=Database_actions(conn,cur).insertgroupname_data(groupname)
-    return  redirect(url_for('addgroup'))
+    return  render_template('message.html', messages = result)
+
 
 if __name__ == '__main__':
    app.debug = True

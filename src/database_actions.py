@@ -45,9 +45,9 @@ class Database_actions:
           if var!="true":
             self.cursor.execute(sql,data)
             self.conn.commit()
-            return "success"
+            return "successfully added group."
           else:
-            return "Group Name aleady Existed"
+            return "Group Name aleady Existed. please provide new name."
 	  
 		  
    def insertplaybooklist_data(self, playbookname, location):
