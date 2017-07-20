@@ -1,12 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, redirect,url_for, render_template
-import flask
 from flask import request
-from shelljob import proc
-import eventlet
-eventlet.monkey_patch()
-import logging
-from logging.handlers import RotatingFileHandler
 import os
 import git
 import sys
@@ -25,121 +19,18 @@ removedquoteslist=[]
 iplist=[]
 ipremovedquoteslist=[]
 consolelist=[]
-
-head='''<html>
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-      <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-      <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-      <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css">
-   </head>
-    <script>
-        .dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-submenu .dropdown-menu {
-    top: 20;
-    left: 100%;
-    margin-top: 30px;
-}
-
-.hide{
-  display:none;
-}
-</script>
-   <body>
-      <div class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#"><span>DASHBOARD</span></a>
-                </div>
-                <div class="collapse navbar-collapse" id="navbar-ex-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active">
-                            <a href="/dashboard">Home</a>
-                        </li>
-                        <li>
-                            <a href="/addhost">Add Host</a>
-                        </li>
-                        <li>
-                            <a href="/addgroup">Add Group</a>
-                        </li>
-                        <li class="dropdown-submenu hide">
-                        <a class="test" tabindex="-1" href="addpermission.html">PERMISSION<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                             <li><a tabindex="-1" href="#">UPLOAD</a></li>
-                            <li><a tabindex="-1" href="{{ url_for('addpermission') }}">UNCOMMENT</a></li>
-                                                        </ul>
-                       </li>
-
-                        <li class="dropdown-submenu hide">
-                        <a class="test" tabindex="-1" href="#">PLAYBOOK<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                             <li><a tabindex="-1" href="#">UPLOAD ROLE</a></li>
-                            <li><a tabindex="-1" href="#">UPLOAD PLAYBOOK</a></li>
-                                                        <li><a tabindex="-1" href="#">RUN SINGLE YML</a></li>
-                          </ul>
-                       </li>
-                        <li>
-                            <a href="/signout">Sign out</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-      <div class="section">
-         <div class="container">
-            <div class="row">
-               <div class="col-md-12">
-                  <div class="panel panel-primary">
-                     <div class="panel-heading">
-                        <h3 class="panel-title">Console Log</h3>
-                     </div>
-                     <div class="panel-body">'''
-
-tail=''' </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-
-           <script>
-$(document).ready(function(){
-  $('.dropdown-submenu a.test').on("click", function(e){
-    $(this).next('ul').toggle();
-    e.stopPropagation();
-    e.preventDefault();
-  });
-});
-</script>   </body></html>'''
-
 app = Flask(__name__)
 @app.before_request
 def before_request():
    owd = os.getcwd()
-   try: 
-        root1, dirs1, files1 = os.walk("external/plugins/Ansible_Playbook").next() 
-        if dirs1==[]:
-           print("please add atleas on role")
-           #if os.path.exists("external/plugins/Ansible_Playbook"):
-           #    os.system("rm -rf external/plugins/Ansible_Playbook")
+   try:  
+        if os.path.exists("external/plugins/Ansible_Playbook"):
+            os.system("rm -rf external/plugins/Ansible_Playbook")
         root, dirs, files = os.walk("external/plugins/").next()
         print dirs
         if dirs==[]:
           os.chdir("external/plugins/")
-          os.system("mkdir Ansible_Playbook")
-         # git.Git().clone("https://github.com/pavantech/Ansible_Playbook.git")
+          git.Git().clone("https://github.com/pavantech/Ansible_Playbook.git")
         else:
            print "not empty"
    finally:
@@ -150,9 +41,6 @@ def before_request():
 
 @app.route('/')
 def index():
-   app.logger.warning('testing warning log')
-   app.logger.error('testing error log')
-   app.logger.info('testing info log')
    return render_template('sign-in.html')
 
 @app.route('/signout')
@@ -160,13 +48,9 @@ def signout():
    conn,cur=connect()
    conn.close()
    return render_template('sign-in.html')
-def removedirectory():
-
 
 @app.route('/dashboard')
 def dashboard():
-   if 'dir' in session:
-       dir = session['dir']
    return render_template('dashboard.html')
 
 @app.route('/error.html')
@@ -288,7 +172,7 @@ def runplaybookhostname():
 
 @app.route('/runplaybookNotRegister/', methods=['POST'])
 def runplaybookNotRegister():
-    global consolelist, head, tail
+    global consolelist
     del consolelist[:]
     hostname=request.form['hostname']
     username=request.form['username']
@@ -296,19 +180,23 @@ def runplaybookNotRegister():
     role = request.form.getlist('rolename')
     print(role)
     dir=runplaybooks().runplaybookhostnoregister(hostname,username,password,role)
-    session['dir']=dir
     owd = os.getcwd()
-    g = proc.Group()
-    p = g.run( [ "bash", "-c", "(cd "+ dir +" && ansible-playbook main.yml)" ])
-    def read_process():
-        yield head
-        while g.is_pending():
-          lines = g.readlines()
-          for proc, line in lines:
-             app.logger.info(line)
-             yield "<h3>" + line + "<h3><br>"
-        yield tail
-    return flask.Response( read_process(), mimetype= 'text/html' )
+    now = datetime.datetime.now()
+    f = open('log/log'+now.isoformat()+'.log', 'a')
+    os.chdir(dir)
+    print(os.getcwd())
+    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    for line in p.stdout.readlines():
+         print line,
+         consolelist.append(line)
+         f.write(line)
+    retval = p.wait()
+    print(retval)
+    f.close()
+    os.chdir(owd)
+    os.system('rm -rf '+dir)
+    files = os.listdir('log/')
+    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
 
 @app.route('/addgroup')
 def addgroup():
@@ -376,22 +264,6 @@ def insertgroup():
 
 
 if __name__ == '__main__':
-   if os.path.exists('log/info.log'):
-      now = datetime.datetime.now()
-      log="info"+str(now.strftime("%Y-%m-%d%H:%M"))+".log"
-      os.system("mv log/info.log log/"+log)
-      logHandler = RotatingFileHandler('log/info.log', maxBytes=1000, backupCount=1)
-   else:
-     logHandler = RotatingFileHandler('log/info.log'+log, maxBytes=1000, backupCount=1)
-    
-    # set the log handler level
-   logHandler.setLevel(logging.INFO)
-
-    # set the app logger level
-   app.logger.setLevel(logging.INFO)
-
-   app.logger.addHandler(logHandler) 
    app.debug = True
    app.run(host="0.0.0.0")
    app.run(debug = True)
-
