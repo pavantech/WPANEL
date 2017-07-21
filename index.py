@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, redirect,url_for, render_template
+from flask import Flask, redirect,url_for, render_template, session
 import flask
 from flask import request
 from shelljob import proc
@@ -25,6 +25,7 @@ removedquoteslist=[]
 iplist=[]
 ipremovedquoteslist=[]
 consolelist=[]
+#session
 
 head='''<html>
    <head>
@@ -125,6 +126,7 @@ $(document).ready(function(){
 </script>   </body></html>'''
 
 app = Flask(__name__)
+app.secret_key = "super secret key"
 @app.before_request
 def before_request():
    owd = os.getcwd()
@@ -157,16 +159,22 @@ def index():
 
 @app.route('/signout')
 def signout():
+   global session
+   if 'dir' in session:
+       dir = session['dir']
+       os.system('rm -rf '+dir)
+   session.pop('dir', None)
    conn,cur=connect()
    conn.close()
    return render_template('sign-in.html')
-def removedirectory():
-
 
 @app.route('/dashboard')
 def dashboard():
+   global session
    if 'dir' in session:
        dir = session['dir']
+       os.system('rm -rf '+dir)
+   session.pop('dir', None)
    return render_template('dashboard.html')
 
 @app.route('/error.html')
@@ -179,10 +187,19 @@ def error():
 
 @app.route('/message.html')
 def msg():
+   global session
+   if 'dir' in session:
+       dir = session['dir']
+       os.system('rm -rf '+dir)
    return render_template('message.html')
 
 @app.route('/runplugins')
 def runplugins():
+    global session
+    if 'dir' in session:
+       dir = session['dir']
+       os.system('rm -rf '+dir)
+    session.pop('dir', None)
     global newlist, removedquoteslist
     del newlist[:]
     del removedquoteslist[:]
@@ -228,7 +245,7 @@ def addhost():
 
 @app.route('/runplaybookplugin/', methods=['POST'])
 def runplaybookplugin():
-    global consolelist
+    global consolelist, session, head, tail
     del consolelist[:]
     groupname= request.form.getlist('groupname')
     role = request.form.getlist('rolename')
@@ -243,52 +260,45 @@ def runplaybookplugin():
         messages = "Please add roles at external/plugins folder"
         return  render_template('message.html', messages = messages)
     dir=runplaybooks().runplaybookgroup(groupname,role)
+    session['dir']=dir
     owd = os.getcwd()
-    now = datetime.datetime.now()
-    f = open('log/log'+now.isoformat()+'.log', 'a')
-    os.chdir(dir)
-    print(os.getcwd())
-    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    for line in p.stdout.readlines():
-         print line,
-         consolelist.append(line)
-         f.write(line)
-    retval = p.wait()
-    print(retval)
-    f.close()
-    os.chdir(owd)
-    os.system('rm -rf '+dir)
-    files = os.listdir('log/')  
-    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
+    g = proc.Group()
+    p = g.run( [ "bash", "-c", "(cd "+ dir +" && ansible-playbook main.yml)" ])
+    def read_process():
+        yield head
+        while g.is_pending():
+          lines = g.readlines()
+          for proc, line in lines:
+             app.logger.info(line)
+             yield "<h3>" + line + "<h3><br>"
+        yield tail
+    return flask.Response( read_process(), mimetype= 'text/html' )
+    
 @app.route('/runplaybookhostname/', methods=['POST'])
 def runplaybookhostname():
-    global consolelist
+    global consolelist, session, head, tail
     del consolelist[:]
     hostname= request.form.getlist('hostname')
     role = request.form.getlist('rolename')
     print(role)
     dir=runplaybooks().runplaybookhost(hostname,role)
+    session['dir']=dir
     owd = os.getcwd()
-    now = datetime.datetime.now()
-    f = open('log/log'+now.isoformat()+'.log', 'a')
-    os.chdir(dir)
-    print(os.getcwd())
-    p = subprocess.Popen('ansible-playbook main.yml', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    for line in p.stdout.readlines():
-         print line,
-         consolelist.append(line)
-         f.write(line)
-    retval = p.wait()
-    print(retval)
-    f.close()
-    os.chdir(owd)
-    os.system('rm -rf '+dir)
-    files = os.listdir('log/')
-    return render_template('consoletab.html', consolelog=consolelist, logfiles=files)
+    g = proc.Group()
+    p = g.run( [ "bash", "-c", "(cd "+ dir +" && ansible-playbook main.yml)" ])
+    def read_process():
+        yield head
+        while g.is_pending():
+          lines = g.readlines()
+          for proc, line in lines:
+             app.logger.info(line)
+             yield "<h3>" + line + "<h3><br>"
+        yield tail
+    return flask.Response( read_process(), mimetype= 'text/html' )
 
 @app.route('/runplaybookNotRegister/', methods=['POST'])
 def runplaybookNotRegister():
-    global consolelist, head, tail
+    global consolelist, head, tail, session
     del consolelist[:]
     hostname=request.form['hostname']
     username=request.form['username']
@@ -312,6 +322,11 @@ def runplaybookNotRegister():
 
 @app.route('/addgroup')
 def addgroup():
+   global session
+   if 'dir' in session:
+       dir = session['dir']
+       os.system('rm -rf '+dir)
+   session.pop('dir', None)
    return render_template('addgroup.html')
 @app.route('/addpermission.html')
 def addpermission():
@@ -382,7 +397,7 @@ if __name__ == '__main__':
       os.system("mv log/info.log log/"+log)
       logHandler = RotatingFileHandler('log/info.log', maxBytes=1000, backupCount=1)
    else:
-     logHandler = RotatingFileHandler('log/info.log'+log, maxBytes=1000, backupCount=1)
+     logHandler = RotatingFileHandler('log/info.log', maxBytes=1000, backupCount=1)
     
     # set the log handler level
    logHandler.setLevel(logging.INFO)
