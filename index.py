@@ -270,7 +270,7 @@ def runplaybookplugin():
           lines = g.readlines()
           for proc, line in lines:
              app.logger.info(line)
-             yield "<h3>" + line + "<h3><br>"
+             yield "<h5>" + line + "<h5><br>"
         yield tail
     return flask.Response( read_process(), mimetype= 'text/html' )
     
@@ -292,7 +292,7 @@ def runplaybookhostname():
           lines = g.readlines()
           for proc, line in lines:
              app.logger.info(line)
-             yield "<h3>" + line + "<h3><br>"
+             yield "<h5>" + line + "<h5><br>"
         yield tail
     return flask.Response( read_process(), mimetype= 'text/html' )
 
@@ -316,7 +316,7 @@ def runplaybookNotRegister():
           lines = g.readlines()
           for proc, line in lines:
              app.logger.info(line)
-             yield "<h3>" + line + "<h3><br>"
+             yield "<h5>" + line + "<h5><br>"
         yield tail
     return flask.Response( read_process(), mimetype= 'text/html' )
 
